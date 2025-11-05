@@ -61,8 +61,10 @@ const JobCard = ({ job }) => {
             </p>
           ))}
         </div>
-        <div className='flex justify-end mt-5'>
-          <Link className='btn btn-secondary' to={`/jobs/${_id}`}>Apply Now !</Link>
+        <div className="flex justify-end mt-5">
+          <Link className="btn btn-primary" to={`/jobs/${_id}`}>
+            Show Details
+          </Link>
         </div>
       </div>
     </div>

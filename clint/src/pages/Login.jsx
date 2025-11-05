@@ -1,11 +1,14 @@
 import Lottie from 'lottie-react';
 import login from '../assets/Login.json';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext/AuthContext';
 import { FcGoogle } from 'react-icons/fc';
 const Login = () => {
   const { siginUser, googLeLogin } = useContext(AuthContext);
+  const loaction = useLocation();
+  const navigate = useNavigate();
+  const froms = loaction.state || '/';
   const handaleLogin = e => {
     e.preventDefault();
     const from = e.target;
@@ -14,8 +17,17 @@ const Login = () => {
     const loginInfo = { email, password };
     console.log(loginInfo);
     siginUser(email, password).then(resuld => {
-      console.log(resuld.user);
+      navigate(froms);
     });
+  };
+  const handaleGoogleLogin = () => {
+    googLeLogin()
+      .then(result => {
+        navigate(froms);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
   return (
     <div className="flex justify-around items-center my-10">
@@ -45,7 +57,7 @@ const Login = () => {
               Login
             </button>
             <div className="divider">OR</div>
-            <button onClick={googLeLogin} type="submit" className="btn ">
+            <button onClick={handaleGoogleLogin} type="submit" className="btn ">
               Login with Google <FcGoogle></FcGoogle>
             </button>
           </fieldset>
