@@ -1,22 +1,23 @@
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'motion/react';
 import team1 from '../assets/tem1.jpg';
 import team2 from '../assets/tem2.jpg';
 const Banner = () => {
   return (
     <div className="hero bg-base-200 ">
-      <div className="hero-content flex-col lg:flex-row-reverse">
-        <div className="flex-1">
+      <div className="hero-content flex-col lg:flex-row-reverse ">
+        <div className="flex-1 text-center items-center ">
           <motion.img
             src={team1}
             animate={{ y: [100, 150, 100] }}
             transition={{ duration: 6, repeat: Infinity }}
-            className="max-w-sm rounded-t-4xl rounded-r-4xl border-l-8 border-b-8 border-blue-500 shadow-2xl"
+            className=" max-w-[200px] lg:max-w-sm -ml-10  rounded-t-4xl rounded-r-4xl border-l-8 border-b-8 border-blue-500 shadow-2xl"
           />
           <motion.img
             src={team2}
             animate={{ x: [100, 160, 100] }}
-            transition={{ duration: 10, delay:2, repeat: Infinity }}
-            className="max-w-sm rounded-t-4xl rounded-r-4xl border-l-8 border-b-8 ml-20 border-blue-500 shadow-2xl"
+            transition={{ duration: 6, repeat: Infinity }}
+            className="max-w-[200px] lg:max-w-sm  rounded-t-4xl rounded-r-4xl border-l-8 border-b-8 -ml-10  border-blue-500 shadow-2xl"
           />
         </div>
 
