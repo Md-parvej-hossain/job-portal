@@ -44,7 +44,8 @@ const Login = () => {
             <button type="submit" className="btn btn-neutral mt-4">
               Login
             </button>
-            <button onClick={googLeLogin} type="submit" className="btn  mt-4">
+            <div className="divider">OR</div>
+            <button onClick={googLeLogin} type="submit" className="btn ">
               Login with Google <FcGoogle></FcGoogle>
             </button>
           </fieldset>
