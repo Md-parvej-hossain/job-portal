@@ -19,6 +19,7 @@ const NavBer = () => {
       <li>
         <Link to={'/'}>Serves</Link>
       </li>
+      <li>{user && <Link to={'/myApplication'}>My Application</Link>}</li>
     </>
   );
   return (
@@ -49,7 +50,7 @@ const NavBer = () => {
             {navLinks}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <a className="btn btn-ghost text-xl">Job Portal</a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navLinks}</ul>

@@ -22,17 +22,35 @@ async function run() {
   try {
     await client.connect();
     const jobCollection = client.db('careerCode').collection('jobs');
+    const applicationCollaction = client
+      .db('careerCode')
+      .collection('applicatio');
 
+    //get singal data
     app.get('/jobs/:id', async (req, res) => {
       const id = req.params.id;
-    
       const query = { _id: new ObjectId(id) };
       const result = await jobCollection.findOne(query);
       res.send(result);
     });
-
+    //get all data
     app.get('/jobs', async (req, res) => {
       const carsor = jobCollection.find();
+      const result = await carsor.toArray();
+      res.send(result);
+    });
+    //job application relatade api
+    //crreat a post api
+    app.post('/application', async (req, res) => {
+      const application = req.body;
+      console.log(application);
+      const result = await applicationCollaction.insertOne(application);
+      res.send(result);
+    });
+
+    //get application data
+    app.get('/application', async (req, res) => {
+      const carsor = applicationCollaction.find();
       const result = await carsor.toArray();
       res.send(result);
     });

@@ -1,7 +1,6 @@
 import { Link, useLoaderData } from 'react-router';
 const JobDetals = () => {
   const data = useLoaderData();
-  console.log(data);
   const { title, _id, company } = data;
   return (
     <div className="my-10 space-y-2">

@@ -34,22 +34,21 @@ const AuthProvider = ({ children }) => {
   };
   //signOut
   const signoutUser = () => {
-    setLoading(true);
     return signOut(auth);
   };
   const authInfo = {
+    loading,
     createUser,
     siginUser,
     googLeLogin,
     signoutUser,
     user,
-    loading,
   };
 
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, user => {
-      if (user) {
-        setUser(user);
+    const unSubscribe = onAuthStateChanged(auth, currentUser => {
+      if (currentUser) {
+        setUser(currentUser);
         setLoading(false);
       } else {
         setUser(null);

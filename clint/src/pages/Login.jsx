@@ -1,11 +1,10 @@
 import Lottie from 'lottie-react';
 import login from '../assets/Login.json';
 import { Link, useLocation, useNavigate } from 'react-router';
-import { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext/AuthContext';
 import { FcGoogle } from 'react-icons/fc';
+import useAuth from '../hooks/useAuth';
 const Login = () => {
-  const { siginUser, googLeLogin } = useContext(AuthContext);
+  const { siginUser, googLeLogin } = useAuth();
   const loaction = useLocation();
   const navigate = useNavigate();
   const froms = loaction.state || '/';
