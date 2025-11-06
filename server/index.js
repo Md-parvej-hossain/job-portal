@@ -43,16 +43,33 @@ async function run() {
     //crreat a post api
     app.post('/application', async (req, res) => {
       const application = req.body;
-      console.log(application);
       const result = await applicationCollaction.insertOne(application);
       res.send(result);
     });
 
-    //get application data
+    // get application data
     app.get('/application', async (req, res) => {
       const carsor = applicationCollaction.find();
       const result = await carsor.toArray();
       res.send(result);
+    });
+    //quary data load
+    //get your application for quary
+    app.get('/applications', async (req, res) => {
+      const email = req.query.email;
+      const query = { email: email };
+      const resuld = await applicationCollaction.find(query).toArray();
+      //optonal
+      //this is a aggregate data
+      for (const application of resuld) {
+        const jobId = application.jobId;
+        const jobQuer = { _id: new ObjectId(jobId) };
+        const job = await jobCollection.findOne(jobQuer);
+        application.company = job.company;
+        application.title = job.title;
+        application.company_logo = job.company_logo;
+      }
+      res.send(resuld);
     });
 
     await client.db('admin').command({ ping: 1 });

@@ -16,6 +16,7 @@ const JobApply = () => {
       ...all,
       jobId,
     };
+
     // use Axios post opration
     axios
       .post(`http://localhost:5000/application`, allData)
@@ -29,6 +30,7 @@ const JobApply = () => {
         console.log(err);
       });
   };
+  
   return (
     <form
       onSubmit={hansaleApplyJobData}
