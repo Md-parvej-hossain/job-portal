@@ -12,6 +12,7 @@ const ApplicationList = ({ ayApplicationPromuse }) => {
           <thead>
             <tr>
               <th></th>
+              <th>Logo</th>
               <th>Name</th>
               <th>Job</th>
               <th>company</th>
@@ -24,6 +25,14 @@ const ApplicationList = ({ ayApplicationPromuse }) => {
             {applications.map((application, inx) => (
               <tr key={application._id}>
                 <th>{inx + 1}</th>
+                <div className="avatar">
+                  <div className="mask mask-squircle h-12 w-12">
+                    <img
+                      src={application.company_logo}
+                      alt="Avatar Tailwind CSS Component"
+                    />
+                  </div>
+                </div>
                 <td>{application.name}</td>
                 <td>{application.title}</td>
                 <td>{application.company}</td>

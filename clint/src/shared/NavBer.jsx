@@ -20,6 +20,8 @@ const NavBer = () => {
         <Link to={'/'}>Serves</Link>
       </li>
       <li>{user && <Link to={'/myApplication'}>My Application</Link>}</li>
+      <li>{user && <Link to={'/addjobs'}>Add Jobs</Link>}</li>
+      <li>{user && <Link to={'/mypostadjob'}>My Postade Jobs</Link>}</li>
     </>
   );
   return (

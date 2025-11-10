@@ -33,12 +33,22 @@ async function run() {
       const result = await jobCollection.findOne(query);
       res.send(result);
     });
+
     //get all data
     app.get('/jobs', async (req, res) => {
       const carsor = jobCollection.find();
       const result = await carsor.toArray();
       res.send(result);
     });
+
+    //job post api
+    app.post('/jobs', async (req, res) => {
+      const newJob = req.body;
+      console.log(newJob);
+      const result = await jobCollection.insertOne(newJob);
+      res.send(result);
+    });
+
     //job application relatade api
     //crreat a post api
     app.post('/application', async (req, res) => {
@@ -53,6 +63,7 @@ async function run() {
       const result = await carsor.toArray();
       res.send(result);
     });
+
     //quary data load
     //get your application for quary
     app.get('/applications', async (req, res) => {
@@ -79,10 +90,12 @@ async function run() {
   } finally {
   }
 }
+
 run().catch(console.dir);
 app.get('/', (req, res) => {
   res.send('Server is runing');
 });
+
 app.listen(port, (req, res) => {
   console.log(`server is runung port http://localhost:${port}`);
 });
