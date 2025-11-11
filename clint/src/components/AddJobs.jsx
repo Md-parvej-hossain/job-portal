@@ -20,6 +20,7 @@ const AddJobs = () => {
       .split(',')
       .map(res => res.trim());
     newJob.status = 'active';
+    console.log(newJob);
     axios
       .post('http://localhost:5000/jobs', newJob)
       .then(res => {
@@ -139,7 +140,7 @@ const AddJobs = () => {
             name="hr_email"
             className="input"
             defaultValue={user?.email}
-            disabled
+            readOnly
             placeholder="my-awesome-page"
           />
         </fieldset>

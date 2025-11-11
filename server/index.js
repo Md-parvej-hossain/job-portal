@@ -36,8 +36,28 @@ async function run() {
 
     //get all data
     app.get('/jobs', async (req, res) => {
-      const carsor = jobCollection.find();
+      const email = req.query.email;
+      const query = {};
+      if (email) {
+        query.hr_email = email;
+      }
+      const carsor = jobCollection.find(query);
       const result = await carsor.toArray();
+      res.send(result);
+    });
+    // coud be emale quary
+    // app.get('/jobsBtEmailaddress', async (req, res) => {
+    //   const email = req.query.email;
+    //   const quary = { hr_email: email };
+    //   const result = await jobCollection.find(quary).toArray();
+    //   res.send(result);
+    // });
+
+    app.get('/application/jobs/:job_id', async (req, res) => {
+      const job_id = req.params.job_id;
+      console.log(job_id);
+      const query = { jobId: job_id };
+      const result = await applicationCollaction.find(query).toArray();
       res.send(result);
     });
 
@@ -62,6 +82,18 @@ async function run() {
       const carsor = applicationCollaction.find();
       const result = await carsor.toArray();
       res.send(result);
+    });
+    //status chang
+    app.patch('/application/:id', async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const updatedDoc = {
+        $set: {
+          status: req.body.status,
+        },
+      };
+      const resut = await applicationCollaction.updateOne(filter, updatedDoc);
+      res.send(resut);
     });
 
     //quary data load
