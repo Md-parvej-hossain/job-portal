@@ -18,7 +18,7 @@ const ApplicationList = ({ ayApplicationPromuse }) => {
               <th>company</th>
               <th>location</th>
               <th>Last Login</th>
-              <th>Favorite Color</th>
+              <th>Application Count</th>
             </tr>
           </thead>
           <tbody>

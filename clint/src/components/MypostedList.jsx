@@ -18,6 +18,7 @@ const MypostedList = ({ jobsCreatadeByPromise }) => {
               <th>Job Title</th>
               <th>Dadline</th>
               <th>View Application</th>
+              <th>Application Count</th>
             </tr>
           </thead>
           <tbody>
@@ -27,9 +28,9 @@ const MypostedList = ({ jobsCreatadeByPromise }) => {
                 <td>{itm.title}</td>
                 <td>{itm.applicationDeadline}</td>
                 <td>
-                
                   <Link to={`/applications/${itm._id}`}>View Applications</Link>
                 </td>
+                <td>{itm.application_Count}</td>
               </tr>
             ))}
           </tbody>

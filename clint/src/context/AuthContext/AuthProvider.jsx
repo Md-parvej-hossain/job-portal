@@ -9,7 +9,7 @@ import {
 } from 'firebase/auth';
 import { GoogleAuthProvider } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-
+import axios from 'axios';
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -50,6 +50,21 @@ const AuthProvider = ({ children }) => {
       if (currentUser) {
         setUser(currentUser);
         setLoading(false);
+        if (currentUser?.email) {
+          const userData = { email: currentUser.email };
+          axios
+            .post('http://localhost:5000/jwt', userData, {
+              withCredentials: true,
+            })
+            .then(res => {
+              console.log(res.data);
+              // const token = res.data.token;
+              // localStorage.setItem('token', token);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        }
       } else {
         setUser(null);
       }

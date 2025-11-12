@@ -2,12 +2,41 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const port = process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 //Middleware module
-app.use(cors());
+app.use(
+  cors({
+    origin: ['http://localhost:5173'],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
+
+app.use(cookieParser());
+
+const logger = (req, res, next) => {
+  console.log('inside the logger middleware');
+  next();
+};
+
+const verifyToken = (req, res, next) => {
+  const token = req?.cookies?.token;
+  if (!token) {
+    return res.status(401).send({ message: 'unauthorized access' });
+  }
+  jwt.verify(token, process.env.JWT_ACCESS_SECRT, (err, decode) => {
+    if (err) {
+      return res.status(401).send({ message: 'unauthorized access' });
+    }
+    res.decode = decode;
+    next();
+  });
+};
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.slspkzm.mongodb.net/?appName=Cluster0`;
 const client = new MongoClient(uri, {
@@ -26,6 +55,49 @@ async function run() {
       .db('careerCode')
       .collection('applicatio');
 
+    // //jwt relatade api
+    app.post('/jwt', async (req, res) => {
+      const { email } = req.body;
+      const user = { email };
+      const token = jwt.sign(user, process.env.JWT_ACCESS_SECRT, {
+        expiresIn: '1h',
+      });
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: false,
+      });
+      res.send({ success: true });
+    });
+
+    // jwt related api
+    // app.post('/jwt', async (req, res) => {
+    //   const userData = req.body;
+    //   const token = jwt.sign(userData, process.env.JWT_ACCESS_SECRT, {
+    //     expiresIn: '1d',
+    //   });
+    //   //set token in  the cookies
+    //   res.cookie('token', token, {
+    //     httpOnly: true,
+    //     secure: false,
+    //   });
+
+    //   res.send({ success: true });
+    // });
+    app.get('/jobs/application', verifyToken, async (req, res) => {
+      const email = req.query.email;
+      console.log('inside applications api ', req.cookies);
+      const query = { hr_email: email };
+      const jobs = await jobCollection.find(query).toArray();
+      // should use agregate to have optimum data fetching
+      for (const job of jobs) {
+        const applicationQuery = { jobId: job._id.toString() };
+        const application_Count = await applicationCollaction.countDocuments(
+          applicationQuery
+        );
+        job.application_Count = application_Count;
+      }
+      res.send(jobs);
+    });
     //get singal data
     app.get('/jobs/:id', async (req, res) => {
       const id = req.params.id;
@@ -98,8 +170,9 @@ async function run() {
 
     //quary data load
     //get your application for quary
-    app.get('/applications', async (req, res) => {
+    app.get('/applications', logger, async (req, res) => {
       const email = req.query.email;
+      console.log('inside applications api ', req.cookies);
       const query = { email: email };
       const resuld = await applicationCollaction.find(query).toArray();
       //optonal
